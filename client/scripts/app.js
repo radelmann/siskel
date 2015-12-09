@@ -6,7 +6,6 @@ var Movie = Backbone.Model.extend({
 
   toggleLike: function() {
     this.set('like', !this.get('like'));
-    this.collection.sort();
   }
 
 });
@@ -16,7 +15,7 @@ var Movies = Backbone.Collection.extend({
   model: Movie,
 
   initialize: function() {
-    // your code here
+    this.on("change:like", this.sort, this);
   },
 
   comparator: 'title',
@@ -25,7 +24,6 @@ var Movies = Backbone.Collection.extend({
     this.comparator = field;
     this.sort();
   }
-
 });
 
 var AppView = Backbone.View.extend({
@@ -94,5 +92,4 @@ var MoviesView = Backbone.View.extend({
     });
     this.$el.append(movieView.render());
   }
-
 });
